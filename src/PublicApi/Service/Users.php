@@ -9,7 +9,7 @@ use CoreDNA\PublicApi\Model\User;
 
 class Users
 {
-    const RESOURCE = '/employee';
+    const RESOURCE = '';
 
     /** @var ServiceGateway */
     private $gateway;
@@ -23,32 +23,29 @@ class Users
 
     public function fetch($userId): User
     {
-        $uri = self::RESOURCE . '/' . $userId;        
+        $uri = self::RESOURCE . '/' . $userId ?? '';        
         
         try {
             $response = $this->gateway->get($uri, []);
-
-            return $this->hydrate($response);
         } catch(Exception $ex) {
             throw $ex;
         }
         
-        return json_decode($response);
+        return $this->hydrate($response);
     }
 
-    public function create($parameters): User
+    public function create(User $user): ?bool
     {
-        $uri =  '/create';
-        
+        $uri =  '';
+        // convert user model to json format 
+        $payload = $this->serialize($user);
         try {
-            $response = $this->gateway->post($uri, $parameters);
-
-            return $response;
+            $response = $this->gateway->post($uri, [], $payload);
         } catch(Exception $ex) {
             throw $ex;
         }
         
-        return json_decode($response);
+        return $response;
     }
 
     private function hydrate(array $data): User
@@ -59,5 +56,16 @@ class Users
         $userModel->setUrl($data['url'] ?? '');
 
         return $userModel;
+    }
+
+    private function serialize(User $user): string
+    {
+        $userArr = [
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'url' => $user->getUrl()
+        ];
+
+        return json_encode($userArr);
     }
 }

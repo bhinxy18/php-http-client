@@ -2,38 +2,33 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/vendor/autoload.php';
 use CoreDNA\PublicApi\ServiceGateway;
 use CoreDNA\PublicApi\Service\Users;
-require __DIR__ . '/vendor/autoload.php';
+use CoreDNA\PublicApi\Model\User;
 
-$gateway = new ServiceGateway('http://dummy.restapiexample.com/api/v1');
+$gateway = new ServiceGateway('https://www.coredna.com/assessment-endpoint.php');
 $users = new Users($gateway);
 
-// Get User by ID
-// $response = $users->fetch('719');
-
-
-$options = [
-    'http' => [
-        'method' => 'POST',
-        'header' => [
-            'Accept: application/json', 
-            'Content-Type: application/json'
-        ] 
-    ]
-];
-$context = stream_context_create($options);
-$uri = 'https://www.coredna.com/assessment-endpoint.php';
-
-$payload = [
-    "name" => "John Doe",
-    "email" => "spamwelcomedhere@gmail.com",
-    "url" => "https://github.com/john-doe/http-client"
-];
+// Send JSON payload to endpoint
+$user = new User();
+$user->setName('Ruby Lamadora');
+$user->setEmail('ruby.lamadora@gmail.com');
+$user->setUrl('https://github.com/bhinxy18/php-http-client');
 
 try {
-    $response = file_get_contents($uri, false, $context);
-} catch(Exception $ex) {
-    throw new Exception("Exception caught while attempting GET to $uri. Message: " . $ex->getMessage());
+    $response = $users->create($user);
+} catch (\Exception $e) {
+    echo "Error while posting User data with Exception message: " . $e->getMessage();
 }
-var_dump($response);
+
+if ($response === true) {
+    echo 'Woohoo, data posted successfully!';
+}
+
+// GET request
+try {
+    $response = $users->fetch(['name' => 'Ruby Lamadora']);
+} catch(\Exception $e) {
+    echo "Error while retrieving User data with Exception message: " . $e->getMessage();
+}
