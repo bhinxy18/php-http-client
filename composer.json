@@ -1,0 +1,34 @@
+{
+    "name": "rawbee/php-http-client",
+    "description": "A public API for a simple HTTP client requests",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ruby L",
+            "email": "bhinxy18@yahoo.com"
+        }
+    ],
+    "scripts": {
+        "unit": [
+            "@composer install",
+            "phpunit"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "CoreDNA\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CoreDNA\\Test\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.1",
+        "mockery/mockery": "^1.3"
+    }
+}
