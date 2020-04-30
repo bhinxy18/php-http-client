@@ -18,21 +18,31 @@ abstract class AbstractGateway
      */
     protected $token;
 
-    public function __construct()
-    {
-    }
-
     abstract public function get(string $resource, array $parameters);
     abstract public function post(string $resource, array $parameters, string $payload);
 
     /**
      * @return string
      */
-    public function getEndPoint()
+    public function getEndPoint(): string
     {
         return $this->endpoint;
     }
 
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+    
+    /**
+     * Checks if Response code is in Valid list.
+     *
+     * @param  int $code
+     * @return bool
+     */
     public function isResponseCodeValid(int $code): bool
     {
         if (in_array($code, self::RESPONSE_CODES)) {
@@ -41,7 +51,13 @@ abstract class AbstractGateway
 
         return false;
     }
-
+    
+    /**
+     * Builds headers for API request.
+     *
+     * @param  string $json_data
+     * @return array
+     */
     public function buildHeaders(string $json_data = ''): array
     {
         return [
@@ -50,12 +66,25 @@ abstract class AbstractGateway
             'Content-length: ' . strlen($json_data)
         ];
     }
-
+    
+    /**
+     * Builds endpoint URI.
+     *
+     * @param  string $resource
+     * @param  array $parameters
+     * @return string
+     */
     public function buildEndpointUri(string $resource, array $parameters): string
     {
         return $this->getEndpoint() . $resource . $this->buildParameterList($parameters);
     }
-
+    
+    /**
+     * Builds Parameters into query string.
+     *
+     * @param  array $parameters
+     * @return string
+     */
     public function buildParameterList(array $parameters): string
     {
         if (!count($parameters)) {
@@ -64,15 +93,27 @@ abstract class AbstractGateway
 
         return '?' . http_build_query($parameters);
     }
-
-    public function decodeResponse($response): array
+    
+    /**
+     * Decodes response so it is more readable.
+     *
+     * @param  string $response
+     * @return array
+     */
+    public function decodeResponse(string $response): array
     {
         // We can add in conditions here based on response data
 
         return json_decode($response);
     }
-
-    public function parseHeaders(array $headers = [])
+    
+    /**
+     * Parses header to easily manipulate response status.
+     *
+     * @param  array $headers
+     * @return array
+     */
+    public function parseHeaders(array $headers = []): array
     {
         $formatted = [];
         if (!count($headers)) {

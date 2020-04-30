@@ -1,32 +1,11 @@
 <?php
 
-/**
- * ServiceGateway Class
- *
- * PHP version 7
- *
- * @category Class
- * @package  Class
- * @author   Ruby <ruby.lamadora@gmail.com>
- * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @link     https://www.github.com/bhinxy18/php-http-client
- */
-
 declare(strict_types=1);
 
 namespace CoreDNA\PublicApi;
 
 use CoreDNA\PublicApi\AbstractGateway;
 
-/**
- * ServiceGateway Class
- *
- * @category Class
- * @package  Class
- * @author   Ruby <ruby.lamadora@gmail.com>
- * @license  https://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @link     https://www.github.com/bhinxy18/php-http-client
- */
 class ServiceGateway extends AbstractGateway
 {
      
@@ -36,12 +15,13 @@ class ServiceGateway extends AbstractGateway
      * @param  string $endpoint This is the endpoint URI
      * @return void
      */
-    public function __construct(string $endpoint)
-    {
-        parent::__construct();
-
+    public function __construct(
+        string $endpoint
+    ) {
         $this->endpoint = $endpoint;
-        $this->token = $this->getToken();
+        if (!$this->token) {
+            $this->token = $this->requestToken();
+        }
     }
     
     /**
@@ -49,7 +29,7 @@ class ServiceGateway extends AbstractGateway
      *
      * @return string
      */
-    public function getToken(): ?string
+    public function requestToken(): ?string
     {
         $options = [
             'http' => [

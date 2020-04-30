@@ -32,8 +32,6 @@ Sample payload:
 ```
 The endpoint requires Bearer HTTP authentication. To get authentication token, it is required to send OPTIONS request to the endpoint URL.
 
-
-
 ## Assessment Criteria
 - The code is clear and easy to read.
 - PSR-12 coding style guidelines are followed.
@@ -41,7 +39,11 @@ The endpoint requires Bearer HTTP authentication. To get authentication token, i
 - Methods and classes respect single-responsibility principle.
 - HTTP client does not need to comply with PSR-7 requirements, but compliance is a bonus.
 
-## Install
+## Documentation
+
+### INSTALL
+- Run `composer build`. This will install composer, fix lint violations and run phpunit.
+- Run `composer lint` to check PHP linting.
 
 #### POST request
 - An example of POST request to endpoint provided when calling the ServiceGateway.

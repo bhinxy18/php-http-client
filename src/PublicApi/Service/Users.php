@@ -22,9 +22,10 @@ class Users
         $this->gateway = $gateway;
     }
 
-    public function fetch($userId): User
+    public function fetch(string $userId): User
     {
-        $uri = self::RESOURCE . '/' . $userId ?? '';
+        // $uri = self::RESOURCE . '/' . $userId ?? '';
+        $uri = '';
         try {
             $response = $this->gateway->get($uri, []);
         } catch (Exception $ex) {
@@ -47,8 +48,11 @@ class Users
         
         return $response;
     }
-
-    private function hydrate(array $data): User
+    
+    /**
+     * TODO move this a Service.
+     */
+    public function hydrate(array $data): User
     {
         $userModel = new User();
         $userModel->setName($data['name'] ?? '');
@@ -58,7 +62,10 @@ class Users
         return $userModel;
     }
 
-    private function serialize(User $user): string
+    /**
+     * TODO move this a Service.
+     */
+    public function serialize(User $user): string
     {
         $userArr = [
             'name' => $user->getName(),
