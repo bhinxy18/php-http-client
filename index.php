@@ -29,6 +29,6 @@ if ($response === true) {
 // GET request
 try {
     $response = $users->fetch(['name' => 'Ruby Lamadora']);
-} catch(\Exception $e) {
+} catch (\Exception $e) {
     echo "Error while retrieving User data with Exception message: " . $e->getMessage();
 }

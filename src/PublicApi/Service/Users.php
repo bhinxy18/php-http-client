@@ -11,23 +11,23 @@ class Users
 {
     const RESOURCE = '';
 
-    /** @var ServiceGateway */
+    /**
+     * @var ServiceGateway
+     */
     private $gateway;
 
     public function __construct(
         ServiceGateway $gateway
-    )
-    {
+    ) {
         $this->gateway = $gateway;
     }
 
     public function fetch($userId): User
     {
-        $uri = self::RESOURCE . '/' . $userId ?? '';        
-        
+        $uri = self::RESOURCE . '/' . $userId ?? '';
         try {
             $response = $this->gateway->get($uri, []);
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
         
@@ -37,11 +37,11 @@ class Users
     public function create(User $user): ?bool
     {
         $uri =  '';
-        // convert user model to json format 
+        // convert user model to json format
         $payload = $this->serialize($user);
         try {
             $response = $this->gateway->post($uri, [], $payload);
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
         

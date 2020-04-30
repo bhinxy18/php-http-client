@@ -6,13 +6,19 @@ namespace CoreDNA\PublicApi\Model;
 
 class User
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $name = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $email = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $url = '';
 
     public function getName(): string

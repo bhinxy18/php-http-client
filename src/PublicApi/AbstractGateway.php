@@ -8,10 +8,14 @@ abstract class AbstractGateway
 {
     const RESPONSE_CODES = [200, 201, 202, 304, 401, 404];
     
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $endpoint;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $token;
 
     public function __construct()
@@ -68,21 +72,20 @@ abstract class AbstractGateway
         return json_decode($response);
     }
 
-    public function parseHeaders(array $headers=[])
+    public function parseHeaders(array $headers = [])
     {
         $formatted = [];
         if (!count($headers)) {
             return $formatted;
         }
         
-        foreach($headers as $k => $v) {
+        foreach ($headers as $k => $v) {
             $httpResponse = explode(':', $v, 2);
-            if(isset($httpResponse[1])) {
+            if (isset($httpResponse[1])) {
                 $formatted[trim($httpResponse[0])] = trim($httpResponse[1]);
-            }
-            else {
+            } else {
                 $formatted[] = $v;
-                if(preg_match( "#HTTP/[0-9\.]+\s+([0-9]+)#",$v, $out)) {
+                if (preg_match("#HTTP/[0-9\.]+\s+([0-9]+)#", $v, $out)) {
                     $formatted['reponse_code'] = intval($out[1]);
                 }
             }
