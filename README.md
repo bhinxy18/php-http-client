@@ -21,7 +21,7 @@ Using vanilla PHP, build a functioning light weight HTTP client capable of the f
 ### 2.
 Using your HTTP client application submit your name, email address and the public URL of repository with your code to the endpoint below:
 
-https://www.coredna.com/assessment-endpoint.php
+https://www.sample-endpoint.com/assessment-endpoint.php
 Sample payload:
 ```
 {
@@ -49,7 +49,7 @@ The endpoint requires Bearer HTTP authentication. To get authentication token, i
 - An example of POST request to endpoint provided when calling the ServiceGateway.
 - Since the endpoint needs Authorization, a OPTION request is called everytime there's a request to endpoint
 ```
-$gateway = new ServiceGateway('https://www.coredna.com/assessment-endpoint.php');
+$gateway = new ServiceGateway('https://www.sample-enpoint.com/assessment-endpoint.php');
 $users = new Users($gateway);
 
 // Send JSON payload to endpoint
